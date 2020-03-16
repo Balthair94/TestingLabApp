@@ -16,7 +16,5 @@ class Repository(
             mDataBase.insertUser(it)
         }
 
-    fun isUserLogged(): Boolean {
-        return mDataBase.getUser()?.firstName.isNullOrBlank().not()
-    }
+    fun isUserLogged(): Boolean = mDataBase.getUser()?.firstName.isNullOrBlank().not()
 }
