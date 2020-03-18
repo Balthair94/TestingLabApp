@@ -1,14 +1,15 @@
 package com.baltazar.testinglabapp
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.GrantPermissionRule
+import androidx.test.rule.ActivityTestRule
 import org.hamcrest.core.IsNot.not
 
 import org.junit.Test
@@ -27,6 +28,10 @@ class MainActivityTest {
 
     @get:Rule
     val activityRule = activityScenarioRule<MainActivity>()
+
+    @get:Rule
+    val activityRue = ActivityTestRule(MainActivity::class.java)
+
 
     //@get:Rule
     //val permissionAccessFineLocation: GrantPermissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -54,5 +59,13 @@ class MainActivityTest {
         onView(withId(R.id.edit_text_password)).perform(ViewActions.typeText("1234"))
         onView(withId(R.id.button_login)).perform(click())
         onView(withId(R.id.progress_bar)).check(matches(isDisplayed()))
+    }
+
+    /**
+     * Really useful when we want to get resources
+     */
+    private fun getString(id: Int): String {
+        val resources = ApplicationProvider.getApplicationContext<Context>().resources
+        return resources.getString(id)
     }
 }
