@@ -43,4 +43,27 @@ class RepositoryTest {
         verify(mApiProvider).loginUser(email, password)
         verify(mDataBaseProvider).insertUser(user)
     }
+
+    @Test
+    @DisplayName("Is user logged. Should return false")
+    fun isUserLogged_shouldReturnFalse() {
+        whenever(mDataBaseProvider.getUser()).thenReturn(null)
+
+        val isLogged = mRepository.isUserLogged()
+
+        assert(!isLogged)
+        verify(mDataBaseProvider).getUser()
+    }
+
+    @Test
+    @DisplayName("Is user logged. Should return true")
+    fun isUserLogged_shouldReturnTrue() {
+        val user = User().also { it.firstName = "Baltazar" }
+        whenever(mDataBaseProvider.getUser()).thenReturn(user)
+
+        val isLogged = mRepository.isUserLogged()
+
+        assert(isLogged)
+        verify(mDataBaseProvider).getUser()
+    }
 }
